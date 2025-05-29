@@ -1,7 +1,11 @@
 'use client'
 
-import { Suspense, lazy } from 'react'
-const Spline = lazy(() => import('@splinetool/react-spline'))
+import { Suspense } from 'react'
+import dynamic from 'next/dynamic'
+
+const Spline = dynamic(() => import('@splinetool/react-spline'), {
+  ssr: false
+})
 
 interface SplineSceneProps {
   scene: string
@@ -17,10 +21,12 @@ export function SplineScene({ scene, className }: SplineSceneProps) {
         </div>
       }
     >
-      <Spline
-        scene={scene}
-        className={className}
-      />
+      <div suppressHydrationWarning>
+        <Spline
+          scene={scene}
+          className={className}
+        />
+      </div>
     </Suspense>
   )
 } 
